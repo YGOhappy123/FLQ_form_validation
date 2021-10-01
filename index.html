@@ -1,0 +1,135 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Test Form Validation</title>
+        <link rel="stylesheet" href="./main.css">
+    </head>
+    <body>
+        <div class="main">
+
+            <form action="" method="POST" class="form" id="form-1">
+              <h3 class="heading">Thành viên đăng ký</h3>
+              <p class="desc">Đăng kí lớp học toán cô Dung ❤️ 💯</p>
+          
+              <div class="spacer"></div>
+          
+              <div class="form-group">
+                <label for="fullname" class="form-label">Tên đầy đủ</label>
+                <input id="fullname" name="fullname" type="text" placeholder="VD: Hà Gia Huy" class="form-control">
+                <span class="form-message"></span>
+              </div>
+          
+              <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input id="email" name="email" type="text" placeholder="VD: hagiahuy21052003@gmail.com" class="form-control">
+                <span class="form-message"></span>
+              </div>
+          
+              <div class="form-group">
+                <label for="password" class="form-label">Mật khẩu</label>
+                <input id="password" name="password" type="password" placeholder="Nhập mật khẩu" class="form-control">
+                <span class="form-message"></span>
+              </div>
+          
+              <div class="form-group">
+                <label for="password_confirmation" class="form-label">Nhập lại mật khẩu</label>
+                <input id="password_confirmation" name="password_confirmation" placeholder="Nhập lại mật khẩu" type="password" class="form-control">
+                <span class="form-message"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="gender" class="form-label">Giới tính</label>
+                  <div class="radio-selection-wrap">
+                    <input name="gender" type="radio" value="male" class="form-control">
+                    <span class="radio-selection-description">Nam</span>
+                  </div>
+                  <div class="radio-selection-wrap">
+                    <input name="gender" type="radio" value="female" class="form-control">
+                    <span class="radio-selection-description">Nữ</span>
+                  </div>
+                  <div class="radio-selection-wrap">
+                    <input name="gender" type="radio" value="other" class="form-control">
+                    <span class="radio-selection-description">Khác</span>
+                  </div>
+                <span class="form-message"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="avatar" class="form-label">Ảnh đại diện</label>
+                <input id="avatar" name="avatar" type="file" class="form-control">
+                <span class="form-message"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="phoneNumber" class="form-label">Số điện thoại</label>
+                <input id="phoneNumber" name="phoneNumber" type="text" class="form-control">
+                <span class="form-message"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="grade" class="form-label">Bạn là học sinh khối</label>
+                <select id="grade" name="grade" class="form-control">
+                  <option value="">---Khối---</option>
+                  <option value="K6">06</option>
+                  <option value="K7">07</option>
+                  <option value="K8">08</option>
+                  <option value="K9">09</option>
+                </select>
+                <span class="form-message"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="course" class="form-label">Đăng kí khóa</label>
+                  <div class="checkbox-selection-wrap">
+                    <input name="course" type="checkbox" value="CB" class="form-control">
+                    <span class="checkbox-selection-description">Khóa cơ bản</span>
+                  </div>
+                  <div class="checkbox-selection-wrap">
+                    <input name="course" type="checkbox" value="NC" class="form-control">
+                    <span class="checkbox-selection-description">Khóa nâng cao</span>
+                  </div>
+                  <div class="checkbox-selection-wrap">
+                    <input name="course" type="checkbox" value="LT" class="form-control">
+                    <span class="checkbox-selection-description">Khóa luyện thi</span>
+                  </div>
+                <span class="form-message"></span>
+              </div>
+          
+              <button class="form-submit">Đăng ký</button>
+            </form>
+          
+          </div>
+        <script src="validation.js"></script>
+        <script>
+
+             Validator({
+            form: '#form-1',
+            formGroupSelector: '.form-group',
+            errorSelector: '.form-message', // có thể querySelector thẳng ra nhưng tách riêng sẽ tránh làm cứng code và dùng lại được
+            rules: [
+              //Các mục cần kiểm tra -> bản chất là việc chạy các hàm và nhận giá trị được return về
+              Validator.isRequired('#fullname', 'Hãy nhập họ và tên của bạn'), // hàm nhận đối số là các inputElement -> selector
+              Validator.isRequired('#email', 'Hãy nhập email của bạn'),
+              Validator.isEmail('#email', 'Email không hợp lệ'),
+              Validator.isLongEnough('#password', 8),
+              Validator.isRequired('#password_confirmation', 'Vui lòng xác nhận lại mật khẩu'),
+              Validator.isConfirmed('#password_confirmation', function () {
+                return document.querySelector('#form-1 #password').value
+              },'Mật khẩu không trùng khớp'),
+              Validator.isRequired('input[name="gender"]', 'Hãy chọn giới tính của bạn'),
+              Validator.isRequired('#phoneNumber', 'Vui lòng nhập số điện thoại'),
+              Validator.isPhoneNumber('#phoneNumber', 'Số điện thoại không hợp lệ'),
+              Validator.isRequired('#avatar', 'Hãy chèn vào ảnh đại diện của bạn'),
+              Validator.isRequired('#grade', 'Hãy chọn khối của bạn'),
+              Validator.isRequired('input[name="course"]', 'Hãy chọn các khóa bạn muốn đăng kí'),
+            ],
+            onSubmit: function (data) {
+              console.log(data)
+            }
+          })
+        </script>
+    </body>
+    </html>
